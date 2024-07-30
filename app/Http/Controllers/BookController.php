@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\StoreBookRequest;;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -34,17 +34,32 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $book = new Book;
-        $book-> author = $request['author'];
-        $book-> title = $request['title'];
-        $book-> description = $request['description'];
-        $book-> isbn = $request['isbn'];
-        $book-> published_year = $request['published_year'];
-        $book->save();
-        
-         return redirect()->to('books');
+        // $book = new Book;
+        // $book-> author = $request['author'];
+        // $book-> title = $request['title'];
+        // $book-> description = $request['description'];
+        // $book-> isbn = $request['isbn'];
+        // $book-> published_year = $request['published_year'];
+        // $book->save();
+
+        $data = $request->validated();
+        $book = Book::create($data);
+
+
+
+        // $request->validate([
+        //     'author'          => 'required',
+        //     'title'           =>  'required',
+        //     'description'     =>  'required',
+        //     'isbn'            =>  'required',
+        //     'published_year'  =>  'required|date',
+        // ]);
+         return redirect()->to('books')->with('success', 'Data saved successfully');
+         //return back()->with('success', 'Data saved successfully');
+
+
          //return redirect()->back();
 
     }
